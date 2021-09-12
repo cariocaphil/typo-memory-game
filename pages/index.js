@@ -3,8 +3,8 @@ import Game from '../components/Game';
 import Panel from '../components/Panel';
 import TitleBar from '../components/TitleBar';
 
-import { BACKGROUND_COLOR, OPTIONS_NUMBER, UPPER_CASE, LOWER_CASE, INITIAL_FONTS_ARRAY } from '../constants';
-import { shuffleArray } from './utils/utils';
+import { BACKGROUND_COLOR, OPTIONS_NUMBER, UPPER_CASE, LOWER_CASE, INITIAL_FONTS_ARRAY } from '../utils/constants';
+import { shuffleArray } from '../utils/utils';
 import { Button } from "antd";
 
 export default function App() {
