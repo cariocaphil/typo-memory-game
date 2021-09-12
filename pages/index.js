@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Game from './components/Game';
-import Panel from './components/Panel';
-import TitleBar from './components/TitleBar';
+import Game from '../components/Game';
+import Panel from '../components/Panel';
+import TitleBar from '../components/TitleBar';
 
 import { BACKGROUND_COLOR, OPTIONS_NUMBER, UPPER_CASE, LOWER_CASE, INITIAL_FONTS_ARRAY } from '../constants';
 import { shuffleArray } from './utils/utils';
