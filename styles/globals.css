@@ -1,0 +1,95 @@
+html,
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.title-section {
+  margin-bottom: 12px;
+}
+
+.title-section p {
+  margin-top: -19px;
+}
+
+.panel-container {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+@media only screen and (min-width: 620px) {
+  .panel-container {
+    flex-direction: row;
+  }
+}
+
+.switches {
+  margin-top: 10px;
+}
+
+label:not(:first-child){
+  margin-top: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 2.5px;
+}
+
+.start-section {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  height: 100px;
+  justify-content: center;
+}
+
+.cards-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin: auto 8px;
+}
+
+.card {
+  height: 218px;
+  margin-bottom: 20px;
+  font-size: 100px;
+  flex-shrink: 0;
+}
+
+.card-body {
+  cursor: pointer;
+  height: 218px;
+  padding-left: 15px;
+  width: 160px;
+  will-change: transform, opacity;
+}
+
+@media only screen and (max-width: 339px) {
+  .card-body {
+  max-height: 200px;
+  max-width: 147px;
+  }
+}
+
+.back {
+  background-image: url("/card.svg");
+  background-size: cover;
+}
+
+.font-info {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+}
