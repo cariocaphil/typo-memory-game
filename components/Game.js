@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Card from './Card';
 import { Modal } from 'antd';
-import { shuffleArray } from "../utils/utils";
+import { shuffleArray } from "../pages/utils/utils";
 
 function Game({
   options,
