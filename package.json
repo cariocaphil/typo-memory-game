@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write \"{,!(.next)/**/}*.{ts, tsx}\""
+    "format": "prettier --write \"{,!(.next)/**/}*.{ts,tsx,js,jsx}\""
   },
   "dependencies": {
     "@types/react": "^17.0.34",
