@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Game from "../components/Game";
 import Panel from "../components/Panel";
 import TitleBar from "../components/TitleBar";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 
 import {
   BACKGROUND_COLOR,
@@ -13,9 +13,9 @@ import {
 } from "../utils/constants";
 import { shuffleArray } from "../utils/utils";
 
-const Button = dynamic(() => import('antd/lib/button'), {
-  ssr: false
-})
+const Button = dynamic(() => import("antd/lib/button"), {
+  ssr: false,
+});
 
 export default function App(props) {
   const [isReadyToStart, setIsReadyToStart] = useState(true);
@@ -110,9 +110,11 @@ export default function App(props) {
           )
         ) : (
           <div className="start-section">
-            {!isReadyToStart && (<Button type="primary" size="large" onClick={handleStart}>
-              Start Game
-            </Button>)}
+            {!isReadyToStart && (
+              <Button type="primary" size="large" onClick={handleStart}>
+                Start Game
+              </Button>
+            )}
           </div>
         )}
       </div>

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Card from "./Card";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 import { shuffleArray } from "../utils/utils";
 
-const Modal = dynamic(() => import('antd/lib/modal'), {
-  ssr: false
-})
+const Modal = dynamic(() => import("antd/lib/modal"), {
+  ssr: false,
+});
 
 function Game({
   options,
@@ -94,14 +94,16 @@ function Game({
             showFontInfo={showFontInfo}
             backgroundColor={backgroundColor}
           />
-          {isModalVisible && <Modal
-            title="Well Done!"
-            visible={isModalVisible}
-            onOk={handleStartOver}
-            onCancel={() => setIsModalVisible(false)}
-          >
-            Would you like to play again?
-          </Modal>}
+          {isModalVisible && (
+            <Modal
+              title="Well Done!"
+              visible={isModalVisible}
+              onOk={handleStartOver}
+              onCancel={() => setIsModalVisible(false)}
+            >
+              Would you like to play again?
+            </Modal>
+          )}
         </div>
       ))}
     </div>
