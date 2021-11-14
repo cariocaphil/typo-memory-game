@@ -98,7 +98,6 @@ export default function App(props) {
           options && (
             <Game
               options={options}
-              setOptions={setOptions}
               letterToBeDisplayed={letterToBeDisplayed}
               letters={letters}
               fonts={props.fonts}
