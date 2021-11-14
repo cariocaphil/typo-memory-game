@@ -1,9 +1,9 @@
-import Document, { Html, Head, Main, NextScript } from 'next/document'
+import Document, { Html, Head, Main, NextScript } from "next/document";
 
 class MyDocument extends Document {
-  static async getInitialProps(ctx){
+  static async getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx);
-    return {...initialProps}
+    return { ...initialProps };
   }
   render() {
     return (
@@ -13,23 +13,23 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Mansalva&display=swap"
             rel="stylesheet"
           />
-                    <link
+          <link
             href="https://fonts.googleapis.com/css2?family=Xanh+Mono&display=swap"
             rel="stylesheet"
           />
-                    <link
+          <link
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap"
             rel="stylesheet"
           />
-                    <link
+          <link
             href="https://fonts.googleapis.com/css2?family=Redressed&display=swap"
             rel="stylesheet"
           />
-                    <link
+          <link
             href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&display=swap"
             rel="stylesheet"
           />
-                    <link
+          <link
             href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap"
             rel="stylesheet"
           />
@@ -39,7 +39,7 @@ class MyDocument extends Document {
           <NextScript />
         </body>
       </Html>
-    )
+    );
   }
 }
 

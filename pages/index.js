@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from "react";
-import Game from '../components/Game';
-import Panel from '../components/Panel';
-import TitleBar from '../components/TitleBar';
+import Game from "../components/Game";
+import Panel from "../components/Panel";
+import TitleBar from "../components/TitleBar";
 
-import { BACKGROUND_COLOR, OPTIONS_NUMBER, UPPER_CASE, LOWER_CASE, INITIAL_FONTS_ARRAY } from '../utils/constants';
-import { shuffleArray } from '../utils/utils';
+import {
+  BACKGROUND_COLOR,
+  OPTIONS_NUMBER,
+  UPPER_CASE,
+  LOWER_CASE,
+  INITIAL_FONTS_ARRAY,
+} from "../utils/constants";
+import { shuffleArray } from "../utils/utils";
 import { Button } from "antd";
 
 export default function App(props) {
-
   const [isReadyToStart, setIsReadyToStart] = useState(true);
   const [options, setOptions] = useState(OPTIONS_NUMBER);
   const [letterCase, setLetterCase] = useState(LOWER_CASE);
-  const initialLetters = new Array(26).fill(1).map((_, i) => String.fromCharCode(letterCase + i));
+  const initialLetters = new Array(26)
+    .fill(1)
+    .map((_, i) => String.fromCharCode(letterCase + i));
   const [letters, setLetters] = useState(initialLetters);
 
   const [showFontInfo, setShowFontInfo] = useState(false);
@@ -24,13 +31,15 @@ export default function App(props) {
   const letterRandomn = letters[randomnKey];
 
   useEffect(() => {
-    const updatedLetters = new Array(26).fill(1).map((_, i) => String.fromCharCode(letterCase + i));
+    const updatedLetters = new Array(26)
+      .fill(1)
+      .map((_, i) => String.fromCharCode(letterCase + i));
     setLetters(updatedLetters);
   }, [letterCase]);
 
   const handleStart = () => {
     setIsReadyToStart(true);
-  }
+  };
 
   // handlers for panel
   const handleStartOver = () => {
@@ -39,7 +48,7 @@ export default function App(props) {
     setTimeout(() => {
       setOptions(prevOptions);
     }, 12);
-  }
+  };
 
   const handleChangeLetter = () => {
     setAlwaysDifferentLetter(false);
@@ -59,18 +68,18 @@ export default function App(props) {
   };
 
   const handleLetterVariation = () => {
-    setAlwaysDifferentLetter(value => !value);
+    setAlwaysDifferentLetter((value) => !value);
   };
 
   const handleFontNameDisplay = () => {
-    setShowFontInfo(value => !value)
+    setShowFontInfo((value) => !value);
   };
 
   return (
     <>
       <div>
         <div className="panel-container">
-          {isReadyToStart &&
+          {isReadyToStart && (
             <Panel
               handleStartOver={handleStartOver}
               handleChangeLetter={handleChangeLetter}
@@ -78,43 +87,43 @@ export default function App(props) {
               handleFontNameDisplay={handleFontNameDisplay}
               handleLetterVariation={handleLetterVariation}
             />
-          }
+          )}
           <TitleBar />
         </div>
-        {isReadyToStart ? (options &&
-          <Game
-            options={options}
-            setOptions={setOptions}
-            letterToBeDisplayed={letterToBeDisplayed}
-            letters={letters}
-            fonts={props.fonts}
-            showFontInfo={showFontInfo}
-            alwaysDifferentLetter={alwaysDifferentLetter}
-            backgroundColor={backgroundColor}
-            handleStartOver={handleStartOver}
-          />) :
+        {isReadyToStart ? (
+          options && (
+            <Game
+              options={options}
+              setOptions={setOptions}
+              letterToBeDisplayed={letterToBeDisplayed}
+              letters={letters}
+              fonts={props.fonts}
+              showFontInfo={showFontInfo}
+              alwaysDifferentLetter={alwaysDifferentLetter}
+              backgroundColor={backgroundColor}
+              handleStartOver={handleStartOver}
+            />
+          )
+        ) : (
           <div className="start-section">
-            <Button
-              type="primary"
-              size="large"
-              onClick={handleStart}>
+            <Button type="primary" size="large" onClick={handleStart}>
               Start Game
             </Button>
-          </div>}
-
+          </div>
+        )}
       </div>
     </>
-  )
+  );
 }
 
 export async function getStaticProps() {
   const initialFontsArray = INITIAL_FONTS_ARRAY;
   const shuffledFontList = shuffleArray(initialFontsArray);
   const fontsForGame = shuffledFontList.slice(0, 20);
-  
+
   return {
     props: {
-      fonts: fontsForGame
-    }
-  }
+      fonts: fontsForGame,
+    },
+  };
 }
