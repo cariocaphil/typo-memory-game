@@ -15,9 +15,9 @@ function Panel({
       <Button onClick={handleChangeLetterCase}>Upper/Lower Case</Button>
       <div className="switches">
         <label htmlFor="switchLetter">Show same letter for each card</label>
-        <Switch onChange={handleLetterVariation} id="switchLetter" />
+        <Switch onChange={handleLetterVariation} title="switch Letter" />
         <label htmlFor="switchFontName">Show Font Name</label>
-        <Switch onChange={handleFontNameDisplay} id="switchFontName" />
+        <Switch onChange={handleFontNameDisplay} title="switch FontName" />
       </div>
     </section>
   );
