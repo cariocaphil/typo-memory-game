@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Game from "../components/Game";
-import Panel from "../components/Panel";
-import TitleBar from "../components/TitleBar";
+import Game from "../components/Game.js";
+import Panel from "../components/Panel.js";
+import TitleBar from "../components/TitleBar.js";
 
 import {
   BACKGROUND_COLOR,
@@ -9,8 +9,8 @@ import {
   UPPER_CASE,
   LOWER_CASE,
   INITIAL_FONTS_ARRAY,
-} from "../utils/constants";
-import { shuffleArray } from "../utils/utils";
+} from "../utils/constants.js";
+import { shuffleArray } from "../utils/utils.js";
 import { Button } from "antd";
 
 export default function App(props) {
