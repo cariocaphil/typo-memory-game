@@ -7,9 +7,9 @@ import { BACKGROUND_COLOR, OPTIONS_NUMBER, UPPER_CASE, LOWER_CASE, INITIAL_FONTS
 import { shuffleArray } from '../utils/utils';
 import { Button } from "antd";
 
-export default function App() {
+export default function App(props) {
 
-  const [isReadyToStart, setIsReadyToStart] = useState(false);
+  const [isReadyToStart, setIsReadyToStart] = useState(true);
   const [options, setOptions] = useState(OPTIONS_NUMBER);
   const [letterCase, setLetterCase] = useState(LOWER_CASE);
   const initialLetters = new Array(26).fill(1).map((_, i) => String.fromCharCode(letterCase + i));
@@ -18,9 +18,7 @@ export default function App() {
   const [showFontInfo, setShowFontInfo] = useState(false);
   const [letterToBeDisplayed, setLetterToBeDisplayed] = useState(letters[21]);
   const [alwaysDifferentLetter, setAlwaysDifferentLetter] = useState(true);
-  const [fonts, setFonts] = useState([]);
 
-  const initialFontsArray = INITIAL_FONTS_ARRAY;
   const backgroundColor = BACKGROUND_COLOR;
   const randomnKey = Math.floor(Math.random() * letters.length);
   const letterRandomn = letters[randomnKey];
@@ -29,12 +27,6 @@ export default function App() {
     const updatedLetters = new Array(26).fill(1).map((_, i) => String.fromCharCode(letterCase + i));
     setLetters(updatedLetters);
   }, [letterCase]);
-
-  useEffect(() => {
-    const shuffledFontList = shuffleArray(initialFontsArray);
-    const fontsForGame = shuffledFontList.slice(0, 20);
-    setFonts(fontsForGame);
-  }, []);
 
   const handleStart = () => {
     setIsReadyToStart(true);
@@ -95,7 +87,7 @@ export default function App() {
             setOptions={setOptions}
             letterToBeDisplayed={letterToBeDisplayed}
             letters={letters}
-            fonts={fonts}
+            fonts={props.fonts}
             showFontInfo={showFontInfo}
             alwaysDifferentLetter={alwaysDifferentLetter}
             backgroundColor={backgroundColor}
@@ -113,4 +105,16 @@ export default function App() {
       </div>
     </>
   )
+}
+
+export async function getStaticProps() {
+  const initialFontsArray = INITIAL_FONTS_ARRAY;
+  const shuffledFontList = shuffleArray(initialFontsArray);
+  const fontsForGame = shuffledFontList.slice(0, 20);
+  
+  return {
+    props: {
+      fonts: fontsForGame
+    }
+  }
 }
