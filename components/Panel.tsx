@@ -1,5 +1,13 @@
 import React from "react";
-import { Button, Switch } from "antd";
+import dynamic from "next/dynamic";
+
+const Button = dynamic(() => import("antd/lib/button"), {
+  ssr: false,
+});
+
+const Switch = dynamic(() => import("antd/lib/switch"), {
+  ssr: false,
+});
 
 function Panel({
   handleStartOver,
