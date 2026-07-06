@@ -93,18 +93,18 @@ function Game({
             showFontInfo={showFontInfo}
             backgroundColor={backgroundColor}
           />
-          {isModalVisible && (
-            <Modal
-              title="Well Done!"
-              visible={isModalVisible}
-              onOk={handleStartOver}
-              onCancel={() => setIsModalVisible(false)}
-            >
-              Would you like to play again?
-            </Modal>
-          )}
         </div>
       ))}
+      {isModalVisible && (
+        <Modal
+          title="Well Done!"
+          visible={isModalVisible}
+          onOk={handleStartOver}
+          onCancel={() => setIsModalVisible(false)}
+        >
+          Would you like to play again?
+        </Modal>
+      )}
     </div>
   );
 }
