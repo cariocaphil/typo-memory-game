@@ -55,26 +55,25 @@ function Game({
     }
   }, [game]);
 
-  if (indexesOfFlippedCards.length === 2) {
+  useEffect(() => {
+    if (indexesOfFlippedCards.length !== 2 || game.length === 0) {
+      return;
+    }
+
+    const [firstIndex, secondIndex] = indexesOfFlippedCards;
     const match =
-      game[indexesOfFlippedCards[0]].fontId ===
-      game[indexesOfFlippedCards[1]].fontId;
+      game[firstIndex].fontId === game[secondIndex].fontId;
 
     if (match) {
       const newGame = [...game];
-      newGame[indexesOfFlippedCards[0]].flipped = true;
-      newGame[indexesOfFlippedCards[1]].flipped = true;
+      newGame[firstIndex].flipped = true;
+      newGame[secondIndex].flipped = true;
       setGame(newGame);
-
-      const newIndexes = [...indexesOfFlippedCards];
-      newIndexes.push(false);
-      setIndexesOfFlippedCards(newIndexes);
+      setIndexesOfFlippedCards([firstIndex, secondIndex, false]);
     } else {
-      const newIndexes = [...indexesOfFlippedCards];
-      newIndexes.push(true);
-      setIndexesOfFlippedCards(newIndexes);
+      setIndexesOfFlippedCards([firstIndex, secondIndex, true]);
     }
-  }
+  }, [indexesOfFlippedCards, game]);
 
   return (
     <div className="cards-section">
@@ -94,18 +93,18 @@ function Game({
             showFontInfo={showFontInfo}
             backgroundColor={backgroundColor}
           />
-          {isModalVisible && (
-            <Modal
-              title="Well Done!"
-              visible={isModalVisible}
-              onOk={handleStartOver}
-              onCancel={() => setIsModalVisible(false)}
-            >
-              Would you like to play again?
-            </Modal>
-          )}
         </div>
       ))}
+      {isModalVisible && (
+        <Modal
+          title="Well Done!"
+          visible={isModalVisible}
+          onOk={handleStartOver}
+          onCancel={() => setIsModalVisible(false)}
+        >
+          Would you like to play again?
+        </Modal>
+      )}
     </div>
   );
 }

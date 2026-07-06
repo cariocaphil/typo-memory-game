@@ -19,7 +19,7 @@ const Button = dynamic(() => import("antd/lib/button"), {
 
 export default function App(props) {
   const [isReadyToStart, setIsReadyToStart] = useState(true);
-  const [options, setOptions] = useState(OPTIONS_NUMBER);
+  const [gameKey, setGameKey] = useState(0);
   const [letterCase, setLetterCase] = useState(LOWER_CASE);
   const initialLetters = new Array(26)
     .fill(1)
@@ -47,11 +47,7 @@ export default function App(props) {
 
   // handlers for panel
   const handleStartOver = () => {
-    const prevOptions = options;
-    setOptions(null);
-    setTimeout(() => {
-      setOptions(prevOptions);
-    }, 12);
+    setGameKey((key) => key + 1);
   };
 
   const handleChangeLetter = () => {
@@ -95,9 +91,9 @@ export default function App(props) {
           <TitleBar />
         </div>
         {isReadyToStart ? (
-          options && (
-            <Game
-              options={options}
+          <Game
+            key={gameKey}
+            options={OPTIONS_NUMBER}
               letterToBeDisplayed={letterToBeDisplayed}
               letters={letters}
               fonts={props.fonts}
@@ -105,8 +101,7 @@ export default function App(props) {
               alwaysDifferentLetter={alwaysDifferentLetter}
               backgroundColor={backgroundColor}
               handleStartOver={handleStartOver}
-            />
-          )
+          />
         ) : (
           <div className="start-section">
             {!isReadyToStart && (
