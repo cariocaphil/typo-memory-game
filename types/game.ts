@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 export type Card = {
   id: number;
   fontId: string;
@@ -42,6 +44,23 @@ export type MemoryGameControls = {
   flipCard: FlipCardHandler;
 };
 
+export type MemoryGameContextValue = {
+  state: {
+    game: Card[];
+    indexesOfFlippedCards: number[];
+    turnPhase: TurnPhase;
+  };
+  actions: {
+    flipCard: FlipCardHandler;
+  };
+};
+
+export type MemoryGameProviderProps = {
+  options: number;
+  fonts: string[];
+  children: ReactNode;
+};
+
 export type GameProps = {
   options: number;
   letterToBeDisplayed: string;
@@ -55,10 +74,6 @@ export type GameProps = {
 
 export type CardProps = {
   id: number;
-  game: Card[];
-  indexesOfFlippedCards: number[];
-  handleFlipCard: FlipCardHandler;
-  turnPhase: TurnPhase;
   letterToBeDisplayed: string;
   font: string;
   showFontInfo: boolean;

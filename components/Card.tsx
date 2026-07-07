@@ -1,18 +1,20 @@
 import React from "react";
 import { useSpring, animated as a } from "react-spring";
+import { useMemoryGameContext } from "../context/MemoryGameContext";
 import type { CardProps } from "../types/game";
 
 function Card({
   id,
-  game,
-  indexesOfFlippedCards,
-  handleFlipCard,
-  turnPhase,
   letterToBeDisplayed,
   font,
   showFontInfo,
   backgroundColor,
 }: CardProps) {
+  const {
+    state: { game, indexesOfFlippedCards, turnPhase },
+    actions: { flipCard },
+  } = useMemoryGameContext();
+
   const isFlipped =
     Boolean(game[id]?.flipped) || indexesOfFlippedCards.includes(id);
 
@@ -26,7 +28,7 @@ function Card({
     if (turnPhase === "resolving") {
       return;
     }
-    handleFlipCard(id);
+    flipCard(id);
   };
 
   return (
