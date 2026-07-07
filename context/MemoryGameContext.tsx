@@ -38,7 +38,9 @@ export function MemoryGameProvider({
 export const useMemoryGameContext = (): MemoryGameContextValue => {
   const context = useContext(MemoryGameContext);
   if (!context) {
-    throw new Error("useMemoryGameContext must be used within MemoryGameProvider");
+    throw new Error(
+      "useMemoryGameContext must be used within MemoryGameProvider"
+    );
   }
   return context;
 };

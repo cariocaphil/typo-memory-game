@@ -1,34 +1,77 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# TypoMemory
 
-## Getting Started
+Can you remember a font just by looking at one character?
 
-First, run the development server:
+A font-themed memory card game built with Next.js. Flip cards to find matching font pairs, with animated card turns and controls to tweak letters, case, and display options.
+
+## Tech stack
+
+- **Next.js 16** (Pages Router)
+- **React 19**
+- **TypeScript**
+- **Ant Design 6** (buttons, switches, win modal)
+- **@react-spring/web** (card flip animations)
+- **next/font** (Google Fonts)
+- **Vitest** (unit tests)
+- **ESLint 9** + **Prettier**
+
+## Requirements
+
+- Node.js **20.x** (required by Next.js 16)
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Scripts
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+| Command                | Description                         |
+| ---------------------- | ----------------------------------- |
+| `npm run dev`          | Start the development server        |
+| `npm run build`        | Create a production build           |
+| `npm run start`        | Serve the production build          |
+| `npm test`             | Run unit tests                      |
+| `npm run lint`         | Run ESLint                          |
+| `npm run format`       | Format files with Prettier          |
+| `npm run format:check` | Check formatting without writing    |
+| `npm run ci`           | Run lint, format check, test, build |
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Game controls
 
-## Learn More
+- **Start Again** — deal a new board (remounts the game)
+- **Change Letter** — pick a random letter shared across cards
+- **Upper/Lower Case** — toggle the alphabet case
+- **Show same letter for each card** — when off, each card shows a unique letter from the alphabet
+- **Show Font Name** — display the font name on flipped cards
 
-To learn more about Next.js, take a look at the following resources:
+## Project structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+components/       UI: Card, Game, Panel, TitleBar, Layout
+context/          MemoryGameContext (state + actions)
+hooks/            useMemoryGame (reducer + turn phases)
+pages/            Next.js routes (/, /credits/thank-you)
+types/            Shared TypeScript types
+utils/            Game logic, fonts, constants, helpers
+styles/           Global CSS reset
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Game rules live in `utils/gameLogic.ts` as pure functions, with tests in `utils/gameLogic.test.ts`. React state is managed via `useReducer` in `hooks/useMemoryGame.ts`, with turn phases: `idle` → `oneFlipped` → `resolving`.
 
-## Deploy on Vercel
+## CI
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+GitHub Actions runs on pushes to `main` and on pull requests:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. ESLint
+2. Prettier format check
+3. Vitest
+4. Production build
+
+## Credits
+
+See [/credits/thank-you](/credits/thank-you) for inspiration and asset attributions.
