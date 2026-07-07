@@ -56,7 +56,7 @@ function GameBoard({
       {isModalVisible && (
         <Modal
           title="Well Done!"
-          visible={isModalVisible}
+          open={isModalVisible}
           onOk={handleStartOver}
           onCancel={() => setIsModalVisible(false)}
         >
