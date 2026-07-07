@@ -24,14 +24,18 @@ function GameBoard({
   const {
     state: { game },
   } = useMemoryGameContext();
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    if (isGameFinished(game)) {
-      setTimeout(() => {
-        setIsModalVisible(true);
-      }, 500);
+    if (!isGameFinished(game)) {
+      return;
     }
+
+    const timer = setTimeout(() => {
+      setIsModalOpen(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
   }, [game]);
 
   return (
@@ -53,16 +57,17 @@ function GameBoard({
           />
         ))}
       </div>
-      {isModalVisible && (
-        <Modal
-          title="Well Done!"
-          open={isModalVisible}
-          onOk={handleStartOver}
-          onCancel={() => setIsModalVisible(false)}
-        >
-          Would you like to play again?
-        </Modal>
-      )}
+      <Modal
+        title="Well Done!"
+        open={isModalOpen}
+        onOk={() => {
+          setIsModalOpen(false);
+          handleStartOver();
+        }}
+        onCancel={() => setIsModalOpen(false)}
+      >
+        Would you like to play again?
+      </Modal>
     </>
   );
 }

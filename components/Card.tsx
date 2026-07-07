@@ -1,6 +1,7 @@
 import React from "react";
 import { useSpring, animated, to } from "@react-spring/web";
 import { useMemoryGameContext } from "../context/MemoryGameContext";
+import { getGameFontFamily } from "../utils/fonts";
 import type { CardProps } from "../types/game";
 import styles from "./Card.module.css";
 
@@ -50,7 +51,7 @@ function Card({
             opacity,
             transform: to(transform, (value) => `${value} rotateX(180deg)`),
             background: backgroundColor,
-            fontFamily: font,
+            fontFamily: getGameFontFamily(font),
           }}
         >
           {letterToBeDisplayed}
