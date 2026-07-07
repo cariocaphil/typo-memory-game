@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Card from "./Card";
 import dynamic from "next/dynamic";
-import { isGameFinished } from "../utils/gameLogic";
+import { isGameFinished, getCardDisplayLetter } from "../utils/gameLogic";
 import {
   MemoryGameProvider,
   useMemoryGameContext,
@@ -40,9 +40,12 @@ function GameBoard({
           <Card
             key={card.id}
             index={index}
-            letterToBeDisplayed={
-              alwaysDifferentLetter ? letters[index] : letterToBeDisplayed
-            }
+            letterToBeDisplayed={getCardDisplayLetter(
+              card,
+              alwaysDifferentLetter,
+              letters,
+              letterToBeDisplayed
+            )}
             font={card.font}
             showFontInfo={showFontInfo}
             backgroundColor={backgroundColor}

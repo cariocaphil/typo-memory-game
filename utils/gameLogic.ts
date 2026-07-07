@@ -27,6 +27,18 @@ export const isGameFinished = (game: Card[]): boolean => {
   return game.length > 0 && !game.some((card) => !card.flipped);
 };
 
+export const getCardDisplayLetter = (
+  card: Card,
+  alwaysDifferentLetter: boolean,
+  letters: string[],
+  sharedLetter: string
+): string => {
+  if (!alwaysDifferentLetter) {
+    return sharedLetter;
+  }
+  return letters[card.id];
+};
+
 export const resolveFlippedPair = (
   game: Card[],
   indexesOfFlippedCards: number[]
