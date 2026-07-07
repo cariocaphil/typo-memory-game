@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Card from "./Card";
 import dynamic from "next/dynamic";
-import { shuffleArray } from "../utils/utils";
+import {
+  createShuffledBoard,
+  isGameFinished,
+  resolveFlippedPair,
+} from "../utils/gameLogic";
 
 const Modal = dynamic(() => import("antd/lib/modal"), {
   ssr: false,
@@ -23,32 +27,11 @@ function Game({
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
-    const newGame = [];
-    for (let i = 0; i < options / 2; i++) {
-      const optionA = {
-        id: i,
-        fontId: "font" + i,
-        flipped: false,
-        font: fonts && fonts[i],
-      };
-      const optionB = {
-        id: i + 1,
-        fontId: "font" + i,
-        flipped: false,
-        font: fonts && fonts[i],
-      };
-
-      newGame.push(optionA);
-      newGame.push(optionB);
-    }
-
-    const shuffledGame = shuffleArray(newGame);
-    setGame(shuffledGame);
+    setGame(createShuffledBoard(options, fonts));
   }, []);
 
   useEffect(() => {
-    const finished = !game.some((card) => !card.flipped);
-    if (finished && game.length > 0) {
+    if (isGameFinished(game)) {
       setTimeout(() => {
         setIsModalVisible(true);
       }, 500);
@@ -56,23 +39,15 @@ function Game({
   }, [game]);
 
   useEffect(() => {
-    if (indexesOfFlippedCards.length !== 2 || game.length === 0) {
+    const resolvedPair = resolveFlippedPair(game, indexesOfFlippedCards);
+    if (!resolvedPair) {
       return;
     }
 
-    const [firstIndex, secondIndex] = indexesOfFlippedCards;
-    const match =
-      game[firstIndex].fontId === game[secondIndex].fontId;
-
-    if (match) {
-      const newGame = [...game];
-      newGame[firstIndex].flipped = true;
-      newGame[secondIndex].flipped = true;
-      setGame(newGame);
-      setIndexesOfFlippedCards([firstIndex, secondIndex, false]);
-    } else {
-      setIndexesOfFlippedCards([firstIndex, secondIndex, true]);
+    if (resolvedPair.updatedGame !== game) {
+      setGame(resolvedPair.updatedGame);
     }
+    setIndexesOfFlippedCards(resolvedPair.updatedIndexes);
   }, [indexesOfFlippedCards, game]);
 
   return (
