@@ -72,12 +72,12 @@ export default function App({ fonts }: HomePageProps) {
     setLetterToBeDisplayed(updatedLetter);
   };
 
-  const handleLetterVariation = () => {
-    setAlwaysDifferentLetter((value) => !value);
+  const handleLetterVariation = (value: boolean) => {
+    setAlwaysDifferentLetter(value);
   };
 
-  const handleFontNameDisplay = () => {
-    setShowFontInfo((value) => !value);
+  const handleFontNameDisplay = (value: boolean) => {
+    setShowFontInfo(value);
   };
 
   return (
@@ -86,6 +86,8 @@ export default function App({ fonts }: HomePageProps) {
         <div className="panel-container">
           {isReadyToStart && (
             <Panel
+              alwaysDifferentLetter={alwaysDifferentLetter}
+              showFontInfo={showFontInfo}
               handleStartOver={handleStartOver}
               handleChangeLetter={handleChangeLetter}
               handleChangeLetterCase={handleChangeLetterCase}

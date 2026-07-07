@@ -1,6 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
-import type { PanelHandlers } from "../types/game";
+import type { PanelProps } from "../types/game";
 
 const Button = dynamic(() => import("antd/lib/button"), {
   ssr: false,
@@ -11,12 +11,14 @@ const Switch = dynamic(() => import("antd/lib/switch"), {
 });
 
 function Panel({
+  alwaysDifferentLetter,
+  showFontInfo,
   handleStartOver,
   handleChangeLetter,
   handleChangeLetterCase,
   handleLetterVariation,
   handleFontNameDisplay,
-}: PanelHandlers) {
+}: PanelProps) {
   return (
     <section>
       <Button onClick={handleStartOver}>Start Again</Button>
@@ -24,9 +26,19 @@ function Panel({
       <Button onClick={handleChangeLetterCase}>Upper/Lower Case</Button>
       <div className="switches">
         <label htmlFor="switchLetter">Show same letter for each card</label>
-        <Switch onChange={handleLetterVariation} title="switch Letter" />
+        <Switch
+          id="switchLetter"
+          checked={!alwaysDifferentLetter}
+          onChange={(checked) => handleLetterVariation(!checked)}
+          title="switch Letter"
+        />
         <label htmlFor="switchFontName">Show Font Name</label>
-        <Switch onChange={handleFontNameDisplay} title="switch FontName" />
+        <Switch
+          id="switchFontName"
+          checked={showFontInfo}
+          onChange={handleFontNameDisplay}
+          title="switch FontName"
+        />
       </div>
     </section>
   );

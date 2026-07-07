@@ -29,12 +29,14 @@ export type ResolvePairResult = {
 export type FlipCardHandler = (cardIndex: number) => void;
 export type StartOverHandler = () => void;
 
-export type PanelHandlers = {
+export type PanelProps = {
+  alwaysDifferentLetter: boolean;
+  showFontInfo: boolean;
   handleStartOver: StartOverHandler;
   handleChangeLetter: () => void;
   handleChangeLetterCase: () => void;
-  handleLetterVariation: () => void;
-  handleFontNameDisplay: () => void;
+  handleLetterVariation: (alwaysDifferentLetter: boolean) => void;
+  handleFontNameDisplay: (showFontInfo: boolean) => void;
 };
 
 export type MemoryGameControls = {
