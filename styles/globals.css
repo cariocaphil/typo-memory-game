@@ -47,14 +47,6 @@ label {
   margin-bottom: 2.5px;
 }
 
-.start-section {
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  height: 100px;
-  justify-content: center;
-}
-
 .cards-section {
   display: flex;
   flex-wrap: wrap;
