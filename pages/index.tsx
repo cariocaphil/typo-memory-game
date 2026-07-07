@@ -3,6 +3,7 @@ import Game from "../components/Game";
 import Panel from "../components/Panel";
 import TitleBar from "../components/TitleBar";
 import dynamic from "next/dynamic";
+import type { GetStaticProps } from "next";
 
 import {
   BACKGROUND_COLOR,
@@ -12,23 +13,27 @@ import {
   INITIAL_FONTS_ARRAY,
 } from "../utils/constants";
 import { shuffleArray } from "../utils/utils";
+import type { HomePageProps } from "../types/pages";
 
 const Button = dynamic(() => import("antd/lib/button"), {
   ssr: false,
 });
 
-export default function App(props) {
-  const [isReadyToStart, setIsReadyToStart] = useState(true);
-  const [gameKey, setGameKey] = useState(0);
-  const [letterCase, setLetterCase] = useState(LOWER_CASE);
+export default function App({ fonts }: HomePageProps) {
+  const [isReadyToStart, setIsReadyToStart] = useState<boolean>(true);
+  const [gameKey, setGameKey] = useState<number>(0);
+  const [letterCase, setLetterCase] = useState<number>(LOWER_CASE);
   const initialLetters = new Array(26)
     .fill(1)
     .map((_, i) => String.fromCharCode(letterCase + i));
-  const [letters, setLetters] = useState(initialLetters);
+  const [letters, setLetters] = useState<string[]>(initialLetters);
 
-  const [showFontInfo, setShowFontInfo] = useState(false);
-  const [letterToBeDisplayed, setLetterToBeDisplayed] = useState(letters[21]);
-  const [alwaysDifferentLetter, setAlwaysDifferentLetter] = useState(true);
+  const [showFontInfo, setShowFontInfo] = useState<boolean>(false);
+  const [letterToBeDisplayed, setLetterToBeDisplayed] = useState<string>(
+    letters[21]
+  );
+  const [alwaysDifferentLetter, setAlwaysDifferentLetter] =
+    useState<boolean>(true);
 
   const backgroundColor = BACKGROUND_COLOR;
   const randomnKey = Math.floor(Math.random() * letters.length);
@@ -67,12 +72,12 @@ export default function App(props) {
     setLetterToBeDisplayed(updatedLetter);
   };
 
-  const handleLetterVariation = () => {
-    setAlwaysDifferentLetter((value) => !value);
+  const handleLetterVariation = (value: boolean) => {
+    setAlwaysDifferentLetter(value);
   };
 
-  const handleFontNameDisplay = () => {
-    setShowFontInfo((value) => !value);
+  const handleFontNameDisplay = (value: boolean) => {
+    setShowFontInfo(value);
   };
 
   return (
@@ -81,6 +86,8 @@ export default function App(props) {
         <div className="panel-container">
           {isReadyToStart && (
             <Panel
+              alwaysDifferentLetter={alwaysDifferentLetter}
+              showFontInfo={showFontInfo}
               handleStartOver={handleStartOver}
               handleChangeLetter={handleChangeLetter}
               handleChangeLetterCase={handleChangeLetterCase}
@@ -94,13 +101,13 @@ export default function App(props) {
           <Game
             key={gameKey}
             options={OPTIONS_NUMBER}
-              letterToBeDisplayed={letterToBeDisplayed}
-              letters={letters}
-              fonts={props.fonts}
-              showFontInfo={showFontInfo}
-              alwaysDifferentLetter={alwaysDifferentLetter}
-              backgroundColor={backgroundColor}
-              handleStartOver={handleStartOver}
+            letterToBeDisplayed={letterToBeDisplayed}
+            letters={letters}
+            fonts={fonts}
+            showFontInfo={showFontInfo}
+            alwaysDifferentLetter={alwaysDifferentLetter}
+            backgroundColor={backgroundColor}
+            handleStartOver={handleStartOver}
           />
         ) : (
           <div className="start-section">
@@ -116,7 +123,7 @@ export default function App(props) {
   );
 }
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
   const initialFontsArray = INITIAL_FONTS_ARRAY;
   const shuffledFontList = shuffleArray(initialFontsArray);
   const fontsForGame = shuffledFontList.slice(0, 20);
@@ -126,4 +133,4 @@ export async function getStaticProps() {
       fonts: fontsForGame,
     },
   };
-}
+};

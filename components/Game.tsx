@@ -2,27 +2,28 @@ import React, { useState, useEffect } from "react";
 import Card from "./Card";
 import dynamic from "next/dynamic";
 import { isGameFinished } from "../utils/gameLogic";
-import { useMemoryGame } from "../hooks/useMemoryGame";
+import {
+  MemoryGameProvider,
+  useMemoryGameContext,
+} from "../context/MemoryGameContext";
+import type { GameProps } from "../types/game";
 
 const Modal = dynamic(() => import("antd/lib/modal"), {
   ssr: false,
 });
 
-function Game({
-  options,
+function GameBoard({
   letterToBeDisplayed,
   showFontInfo,
   alwaysDifferentLetter,
-  fonts,
   backgroundColor,
   letters,
   handleStartOver,
-}) {
-  const { game, indexesOfFlippedCards, turnPhase, flipCard } = useMemoryGame(
-    options,
-    fonts
-  );
-  const [isModalVisible, setIsModalVisible] = useState(false);
+}: Omit<GameProps, "options" | "fonts">) {
+  const {
+    state: { game },
+  } = useMemoryGameContext();
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     if (isGameFinished(game)) {
@@ -33,15 +34,12 @@ function Game({
   }, [game]);
 
   return (
-    <div className="cards-section">
-      {game.map((card, index) => (
-        <div key={index}>
+    <>
+      <div className="cards-section">
+        {game.map((card, index) => (
           <Card
-            id={index}
-            game={game}
-            indexesOfFlippedCards={indexesOfFlippedCards}
-            handleFlipCard={flipCard}
-            turnPhase={turnPhase}
+            key={card.id}
+            index={index}
             letterToBeDisplayed={
               alwaysDifferentLetter ? letters[index] : letterToBeDisplayed
             }
@@ -49,8 +47,8 @@ function Game({
             showFontInfo={showFontInfo}
             backgroundColor={backgroundColor}
           />
-        </div>
-      ))}
+        ))}
+      </div>
       {isModalVisible && (
         <Modal
           title="Well Done!"
@@ -61,7 +59,31 @@ function Game({
           Would you like to play again?
         </Modal>
       )}
-    </div>
+    </>
+  );
+}
+
+function Game({
+  options,
+  fonts,
+  letterToBeDisplayed,
+  showFontInfo,
+  alwaysDifferentLetter,
+  backgroundColor,
+  letters,
+  handleStartOver,
+}: GameProps) {
+  return (
+    <MemoryGameProvider options={options} fonts={fonts}>
+      <GameBoard
+        letterToBeDisplayed={letterToBeDisplayed}
+        showFontInfo={showFontInfo}
+        alwaysDifferentLetter={alwaysDifferentLetter}
+        backgroundColor={backgroundColor}
+        letters={letters}
+        handleStartOver={handleStartOver}
+      />
+    </MemoryGameProvider>
   );
 }
 

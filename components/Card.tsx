@@ -1,19 +1,22 @@
 import React from "react";
 import { useSpring, animated as a } from "react-spring";
+import { useMemoryGameContext } from "../context/MemoryGameContext";
+import type { CardProps } from "../types/game";
 
 function Card({
-  id,
-  game,
-  indexesOfFlippedCards,
-  handleFlipCard,
-  turnPhase,
+  index,
   letterToBeDisplayed,
   font,
   showFontInfo,
   backgroundColor,
-}) {
+}: CardProps) {
+  const {
+    state: { game, indexesOfFlippedCards, turnPhase },
+    actions: { flipCard },
+  } = useMemoryGameContext();
+
   const isFlipped =
-    Boolean(game[id]?.flipped) || indexesOfFlippedCards.includes(id);
+    Boolean(game[index]?.flipped) || indexesOfFlippedCards.includes(index);
 
   const { transform, opacity } = useSpring({
     opacity: isFlipped ? 1 : 0,
@@ -25,7 +28,7 @@ function Card({
     if (turnPhase === "resolving") {
       return;
     }
-    handleFlipCard(id);
+    flipCard(index);
   };
 
   return (
@@ -34,7 +37,7 @@ function Card({
         <a.div
           className="card-body back"
           style={{
-            opacity: opacity.interpolate((o: any) => 1 - o),
+            opacity: opacity.interpolate((o: number) => 1 - o),
             transform,
           }}
         />
