@@ -35,7 +35,7 @@ function Card({
         <a.div
           className="card-body back"
           style={{
-            opacity: opacity.interpolate((o: any) => 1 - o),
+            opacity: opacity.interpolate((o: number) => 1 - o),
             transform,
           }}
         />

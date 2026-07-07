@@ -23,7 +23,7 @@ function Game({
     options,
     fonts
   );
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     if (isGameFinished(game)) {
