@@ -3,6 +3,7 @@ import Card from "./Card";
 import dynamic from "next/dynamic";
 import { isGameFinished } from "../utils/gameLogic";
 import { useMemoryGame } from "../hooks/useMemoryGame";
+import type { GameProps } from "../types/game";
 
 const Modal = dynamic(() => import("antd/lib/modal"), {
   ssr: false,
@@ -17,7 +18,7 @@ function Game({
   backgroundColor,
   letters,
   handleStartOver,
-}) {
+}: GameProps) {
   const { game, indexesOfFlippedCards, turnPhase, flipCard } = useMemoryGame(
     options,
     fonts

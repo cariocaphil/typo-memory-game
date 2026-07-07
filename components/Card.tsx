@@ -1,5 +1,6 @@
 import React from "react";
 import { useSpring, animated as a } from "react-spring";
+import type { CardProps } from "../types/game";
 
 function Card({
   id,
@@ -11,7 +12,7 @@ function Card({
   font,
   showFontInfo,
   backgroundColor,
-}) {
+}: CardProps) {
   const isFlipped =
     Boolean(game[id]?.flipped) || indexesOfFlippedCards.includes(id);
 

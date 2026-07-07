@@ -1,17 +1,11 @@
+import type { Card, ResolvePairResult } from "../types/game";
 import { shuffleArray } from "./utils";
-
-export type GameCard = {
-  id: number;
-  fontId: string;
-  flipped: boolean;
-  font: string;
-};
 
 export const createShuffledBoard = (
   options: number,
   fonts: string[]
-): GameCard[] => {
-  const cards: GameCard[] = [];
+): Card[] => {
+  const cards: Card[] = [];
   for (let i = 0; i < options / 2; i++) {
     const card = {
       id: i,
@@ -25,14 +19,14 @@ export const createShuffledBoard = (
   return shuffleArray(cards);
 };
 
-export const isGameFinished = (game: GameCard[]): boolean => {
+export const isGameFinished = (game: Card[]): boolean => {
   return game.length > 0 && !game.some((card) => !card.flipped);
 };
 
 export const resolveFlippedPair = (
-  game: GameCard[],
+  game: Card[],
   indexesOfFlippedCards: number[]
-): { updatedGame: GameCard[]; isMatch: boolean } | null => {
+): ResolvePairResult | null => {
   if (indexesOfFlippedCards.length !== 2 || game.length === 0) {
     return null;
   }

@@ -1,5 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
+import type { PanelHandlers } from "../types/game";
 
 const Button = dynamic(() => import("antd/lib/button"), {
   ssr: false,
@@ -15,7 +16,7 @@ function Panel({
   handleChangeLetterCase,
   handleLetterVariation,
   handleFontNameDisplay,
-}) {
+}: PanelHandlers) {
   return (
     <section>
       <Button onClick={handleStartOver}>Start Again</Button>

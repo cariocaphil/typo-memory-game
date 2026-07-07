@@ -1,34 +1,21 @@
 import { useEffect, useReducer } from "react";
-import {
-  createShuffledBoard,
-  resolveFlippedPair,
-  type GameCard,
-} from "../utils/gameLogic";
+import { createShuffledBoard, resolveFlippedPair } from "../utils/gameLogic";
+import type {
+  GameState,
+  MemoryGameAction,
+  MemoryGameControls,
+} from "../types/game";
 
-type TurnPhase = "idle" | "oneFlipped" | "resolving";
-
-type MemoryGameState = {
-  game: GameCard[];
-  indexesOfFlippedCards: number[];
-  turnPhase: TurnPhase;
-};
-
-type MemoryGameAction =
-  | { type: "initialize"; game: GameCard[] }
-  | { type: "flipCard"; cardIndex: number }
-  | { type: "resolvePair"; updatedGame: GameCard[]; isMatch: boolean }
-  | { type: "clearSelection" };
-
-const initialState: MemoryGameState = {
+const initialState: GameState = {
   game: [],
   indexesOfFlippedCards: [],
   turnPhase: "idle",
 };
 
 const memoryGameReducer = (
-  state: MemoryGameState,
+  state: GameState,
   action: MemoryGameAction
-): MemoryGameState => {
+): GameState => {
   switch (action.type) {
     case "initialize":
       return {
@@ -79,7 +66,10 @@ const memoryGameReducer = (
   }
 };
 
-export const useMemoryGame = (options: number, fonts: string[]) => {
+export const useMemoryGame = (
+  options: number,
+  fonts: string[]
+): MemoryGameControls => {
   const [state, dispatch] = useReducer(memoryGameReducer, initialState);
 
   useEffect(() => {
