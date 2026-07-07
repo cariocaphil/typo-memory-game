@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   createShuffledBoard,
+  getCardDisplayLetter,
   isGameFinished,
   resolveFlippedPair,
 } from "./gameLogic";
@@ -25,6 +26,24 @@ describe("createShuffledBoard", () => {
     expect(Object.values(counts)).toEqual([2, 2, 2]);
     expect(board.every((card) => card.flipped === false)).toBe(true);
     expect(new Set(board.map((card) => card.id)).size).toBe(board.length);
+  });
+});
+
+describe("getCardDisplayLetter", () => {
+  const letters = "abcdefghijklmnopqrstuvwxyz".split("");
+
+  it("returns a unique letter per card when alwaysDifferentLetter is true", () => {
+    const board = createShuffledBoard(12, Array(6).fill("Font"));
+    const displayLetters = board.map((card) =>
+      getCardDisplayLetter(card, true, letters, "z")
+    );
+
+    expect(new Set(displayLetters).size).toBe(board.length);
+  });
+
+  it("returns the shared letter when alwaysDifferentLetter is false", () => {
+    const card = makeCard(3, "font1");
+    expect(getCardDisplayLetter(card, false, letters, "X")).toBe("X");
   });
 });
 

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Game from "../components/Game";
+import Layout from "../components/Layout";
 import Panel from "../components/Panel";
 import TitleBar from "../components/TitleBar";
-import dynamic from "next/dynamic";
 import type { GetStaticProps } from "next";
 
 import {
@@ -15,12 +15,7 @@ import {
 import { shuffleArray } from "../utils/utils";
 import type { HomePageProps } from "../types/pages";
 
-const Button = dynamic(() => import("antd/lib/button"), {
-  ssr: false,
-});
-
 export default function App({ fonts }: HomePageProps) {
-  const [isReadyToStart, setIsReadyToStart] = useState<boolean>(true);
   const [gameKey, setGameKey] = useState<number>(0);
   const [letterCase, setLetterCase] = useState<number>(LOWER_CASE);
   const initialLetters = new Array(26)
@@ -46,11 +41,6 @@ export default function App({ fonts }: HomePageProps) {
     setLetters(updatedLetters);
   }, [letterCase]);
 
-  const handleStart = () => {
-    setIsReadyToStart(true);
-  };
-
-  // handlers for panel
   const handleStartOver = () => {
     setGameKey((key) => key + 1);
   };
@@ -81,45 +71,31 @@ export default function App({ fonts }: HomePageProps) {
   };
 
   return (
-    <>
-      <div>
-        <div className="panel-container">
-          {isReadyToStart && (
-            <Panel
-              alwaysDifferentLetter={alwaysDifferentLetter}
-              showFontInfo={showFontInfo}
-              handleStartOver={handleStartOver}
-              handleChangeLetter={handleChangeLetter}
-              handleChangeLetterCase={handleChangeLetterCase}
-              handleFontNameDisplay={handleFontNameDisplay}
-              handleLetterVariation={handleLetterVariation}
-            />
-          )}
-          <TitleBar />
-        </div>
-        {isReadyToStart ? (
-          <Game
-            key={gameKey}
-            options={OPTIONS_NUMBER}
-            letterToBeDisplayed={letterToBeDisplayed}
-            letters={letters}
-            fonts={fonts}
-            showFontInfo={showFontInfo}
-            alwaysDifferentLetter={alwaysDifferentLetter}
-            backgroundColor={backgroundColor}
-            handleStartOver={handleStartOver}
-          />
-        ) : (
-          <div className="start-section">
-            {!isReadyToStart && (
-              <Button type="primary" size="large" onClick={handleStart}>
-                Start Game
-              </Button>
-            )}
-          </div>
-        )}
+    <Layout>
+      <div className="panel-container">
+        <Panel
+          alwaysDifferentLetter={alwaysDifferentLetter}
+          showFontInfo={showFontInfo}
+          handleStartOver={handleStartOver}
+          handleChangeLetter={handleChangeLetter}
+          handleChangeLetterCase={handleChangeLetterCase}
+          handleFontNameDisplay={handleFontNameDisplay}
+          handleLetterVariation={handleLetterVariation}
+        />
+        <TitleBar />
       </div>
-    </>
+      <Game
+        key={gameKey}
+        options={OPTIONS_NUMBER}
+        letterToBeDisplayed={letterToBeDisplayed}
+        letters={letters}
+        fonts={fonts}
+        showFontInfo={showFontInfo}
+        alwaysDifferentLetter={alwaysDifferentLetter}
+        backgroundColor={backgroundColor}
+        handleStartOver={handleStartOver}
+      />
+    </Layout>
   );
 }
 
