@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Card from "./Card";
 import dynamic from "next/dynamic";
-import {
-  createShuffledBoard,
-  isGameFinished,
-  resolveFlippedPair,
-} from "../utils/gameLogic";
+import { isGameFinished } from "../utils/gameLogic";
+import { useMemoryGame } from "../hooks/useMemoryGame";
 
 const Modal = dynamic(() => import("antd/lib/modal"), {
   ssr: false,
@@ -21,14 +18,11 @@ function Game({
   letters,
   handleStartOver,
 }) {
-  const [game, setGame] = useState([]);
-  const [flipCount, setFlipCount] = useState(0);
-  const [indexesOfFlippedCards, setIndexesOfFlippedCards] = useState([]);
+  const { game, indexesOfFlippedCards, turnPhase, flipCard } = useMemoryGame(
+    options,
+    fonts
+  );
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  useEffect(() => {
-    setGame(createShuffledBoard(options, fonts));
-  }, []);
 
   useEffect(() => {
     if (isGameFinished(game)) {
@@ -38,18 +32,6 @@ function Game({
     }
   }, [game]);
 
-  useEffect(() => {
-    const resolvedPair = resolveFlippedPair(game, indexesOfFlippedCards);
-    if (!resolvedPair) {
-      return;
-    }
-
-    if (resolvedPair.updatedGame !== game) {
-      setGame(resolvedPair.updatedGame);
-    }
-    setIndexesOfFlippedCards(resolvedPair.updatedIndexes);
-  }, [indexesOfFlippedCards, game]);
-
   return (
     <div className="cards-section">
       {game.map((card, index) => (
@@ -57,10 +39,9 @@ function Game({
           <Card
             id={index}
             game={game}
-            flipCount={flipCount}
-            setFlipCount={setFlipCount}
             indexesOfFlippedCards={indexesOfFlippedCards}
-            setIndexesOfFlippedCards={setIndexesOfFlippedCards}
+            handleFlipCard={flipCard}
+            turnPhase={turnPhase}
             letterToBeDisplayed={
               alwaysDifferentLetter ? letters[index] : letterToBeDisplayed
             }
