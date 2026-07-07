@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Card from "./Card";
 import dynamic from "next/dynamic";
-import {
-  createShuffledBoard,
-  isGameFinished,
-  resolveFlippedPair,
-} from "../utils/gameLogic";
+import { isGameFinished } from "../utils/gameLogic";
+import { useMemoryGame } from "../hooks/useMemoryGame";
 
 const Modal = dynamic(() => import("antd/lib/modal"), {
   ssr: false,
@@ -21,16 +18,11 @@ function Game({
   letters,
   handleStartOver,
 }) {
-  const [game, setGame] = useState([]);
-  const [indexesOfFlippedCards, setIndexesOfFlippedCards] = useState<number[]>(
-    []
+  const { game, indexesOfFlippedCards, turnPhase, flipCard } = useMemoryGame(
+    options,
+    fonts
   );
-  const [turnPhase, setTurnPhase] = useState("idle");
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  useEffect(() => {
-    setGame(createShuffledBoard(options, fonts));
-  }, []);
 
   useEffect(() => {
     if (isGameFinished(game)) {
@@ -40,54 +32,6 @@ function Game({
     }
   }, [game]);
 
-  useEffect(() => {
-    if (turnPhase !== "resolving") {
-      return;
-    }
-
-    const resolvedPair = resolveFlippedPair(game, indexesOfFlippedCards);
-    if (!resolvedPair) {
-      return;
-    }
-
-    if (resolvedPair.updatedGame !== game) {
-      setGame(resolvedPair.updatedGame);
-    }
-
-    if (resolvedPair.isMatch) {
-      setIndexesOfFlippedCards([]);
-      setTurnPhase("idle");
-      return;
-    }
-
-    const timeoutId = setTimeout(() => {
-      setIndexesOfFlippedCards([]);
-      setTurnPhase("idle");
-    }, 1000);
-
-    return () => clearTimeout(timeoutId);
-  }, [indexesOfFlippedCards, game, turnPhase]);
-
-  const handleFlipCard = (cardIndex) => {
-    if (turnPhase === "resolving" || game[cardIndex]?.flipped) {
-      return;
-    }
-
-    if (turnPhase === "idle") {
-      setIndexesOfFlippedCards([cardIndex]);
-      setTurnPhase("oneFlipped");
-      return;
-    }
-
-    if (
-      turnPhase === "oneFlipped" &&
-      indexesOfFlippedCards[0] !== cardIndex
-    ) {
-      setIndexesOfFlippedCards([indexesOfFlippedCards[0], cardIndex]);
-      setTurnPhase("resolving");
-    }
-  };
-
   return (
     <div className="cards-section">
       {game.map((card, index) => (
@@ -96,7 +40,7 @@ function Game({
             id={index}
             game={game}
             indexesOfFlippedCards={indexesOfFlippedCards}
-            handleFlipCard={handleFlipCard}
+            handleFlipCard={flipCard}
             turnPhase={turnPhase}
             letterToBeDisplayed={
               alwaysDifferentLetter ? letters[index] : letterToBeDisplayed

@@ -1,6 +1,6 @@
 import { shuffleArray } from "./utils";
 
-type GameCard = {
+export type GameCard = {
   id: number;
   fontId: string;
   flipped: boolean;
