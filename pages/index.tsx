@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useMemo, useState } from "react";
 import Game from "../components/Game";
 import Layout from "../components/Layout";
 import Panel from "../components/Panel";
@@ -16,31 +16,25 @@ import { shuffleArray } from "../utils/utils";
 import type { HomePageProps } from "../types/pages";
 import styles from "./index.module.css";
 
+function createLetterArray(letterCase: number): string[] {
+  return new Array(26)
+    .fill(1)
+    .map((_, i) => String.fromCharCode(letterCase + i));
+}
+
 export default function App({ fonts }: HomePageProps) {
   const [gameKey, setGameKey] = useState<number>(0);
   const [letterCase, setLetterCase] = useState<number>(LOWER_CASE);
-  const initialLetters = new Array(26)
-    .fill(1)
-    .map((_, i) => String.fromCharCode(letterCase + i));
-  const [letters, setLetters] = useState<string[]>(initialLetters);
+  const letters = useMemo(() => createLetterArray(letterCase), [letterCase]);
 
   const [showFontInfo, setShowFontInfo] = useState<boolean>(false);
   const [letterToBeDisplayed, setLetterToBeDisplayed] = useState<string>(
-    letters[21]
+    () => createLetterArray(LOWER_CASE)[21]
   );
   const [alwaysDifferentLetter, setAlwaysDifferentLetter] =
     useState<boolean>(true);
 
   const backgroundColor = BACKGROUND_COLOR;
-  const randomnKey = Math.floor(Math.random() * letters.length);
-  const letterRandomn = letters[randomnKey];
-
-  useEffect(() => {
-    const updatedLetters = new Array(26)
-      .fill(1)
-      .map((_, i) => String.fromCharCode(letterCase + i));
-    setLetters(updatedLetters);
-  }, [letterCase]);
 
   const handleStartOver = () => {
     setGameKey((key) => key + 1);
@@ -48,7 +42,8 @@ export default function App({ fonts }: HomePageProps) {
 
   const handleChangeLetter = () => {
     setAlwaysDifferentLetter(false);
-    setLetterToBeDisplayed(letterRandomn);
+    const randomKey = Math.floor(Math.random() * letters.length);
+    setLetterToBeDisplayed(letters[randomKey]);
   };
 
   const handleChangeLetterCase = () => {

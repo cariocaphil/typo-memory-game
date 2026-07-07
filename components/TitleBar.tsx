@@ -7,9 +7,7 @@ export default function TitleBar() {
       <h1>TypoMemory</h1>
       <p>a font memory game</p>
       <div className={styles.creditsSection}>
-        <Link href="/credits/thank-you">
-          <a>credits</a>
-        </Link>
+        <Link href="/credits/thank-you">credits</Link>
       </div>
     </div>
   );

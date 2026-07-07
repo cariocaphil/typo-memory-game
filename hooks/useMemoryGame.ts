@@ -1,4 +1,4 @@
-import { useEffect, useReducer, type Reducer } from "react";
+import { useEffect, useReducer } from "react";
 import { createShuffledBoard, resolveFlippedPair } from "../utils/gameLogic";
 import type {
   GameState,
@@ -70,10 +70,7 @@ export const useMemoryGame = (
   options: number,
   fonts: string[]
 ): MemoryGameControls => {
-  const [state, dispatch] = useReducer<Reducer<GameState, MemoryGameAction>>(
-    memoryGameReducer,
-    initialState
-  );
+  const [state, dispatch] = useReducer(memoryGameReducer, initialState);
 
   useEffect(() => {
     dispatch({ type: "initialize", game: createShuffledBoard(options, fonts) });

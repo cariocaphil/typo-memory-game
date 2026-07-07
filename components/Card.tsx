@@ -1,6 +1,7 @@
 import React from "react";
-import { useSpring, animated as a } from "react-spring";
+import { useSpring, animated, to } from "@react-spring/web";
 import { useMemoryGameContext } from "../context/MemoryGameContext";
+import { getGameFontFamily } from "../utils/fonts";
 import type { CardProps } from "../types/game";
 import styles from "./Card.module.css";
 
@@ -35,29 +36,27 @@ function Card({
   return (
     <div className={styles.card} onClick={handleCardClick}>
       {!isFlipped && (
-        <a.div
+        <animated.div
           className={`${styles.cardBody} ${styles.back}`}
           style={{
-            opacity: opacity.interpolate((o: number) => 1 - o),
+            opacity: to(opacity, (value) => 1 - value),
             transform,
           }}
         />
       )}
       {isFlipped && (
-        <>
-          <a.div
-            className={styles.cardBody}
-            style={{
-              opacity,
-              transform: transform.interpolate((t) => `${t} rotateX(180deg)`),
-              background: backgroundColor,
-              fontFamily: font,
-            }}
-          >
-            {letterToBeDisplayed}
-            {showFontInfo && <div className={styles.fontInfo}>{font}</div>}
-          </a.div>
-        </>
+        <animated.div
+          className={styles.cardBody}
+          style={{
+            opacity,
+            transform: to(transform, (value) => `${value} rotateX(180deg)`),
+            background: backgroundColor,
+            fontFamily: getGameFontFamily(font),
+          }}
+        >
+          {letterToBeDisplayed}
+          {showFontInfo && <div className={styles.fontInfo}>{font}</div>}
+        </animated.div>
       )}
     </div>
   );

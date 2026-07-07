@@ -32,9 +32,7 @@ export default function ThankYou() {
           </li>
         </ul>
         <h3>
-          <Link href="/">
-            <a>back to game</a>
-          </Link>
+          <Link href="/">back to game</Link>
         </h3>
       </Layout>
     </>
