@@ -4,7 +4,7 @@ import { useMemoryGameContext } from "../context/MemoryGameContext";
 import type { CardProps } from "../types/game";
 
 function Card({
-  id,
+  index,
   letterToBeDisplayed,
   font,
   showFontInfo,
@@ -16,7 +16,7 @@ function Card({
   } = useMemoryGameContext();
 
   const isFlipped =
-    Boolean(game[id]?.flipped) || indexesOfFlippedCards.includes(id);
+    Boolean(game[index]?.flipped) || indexesOfFlippedCards.includes(index);
 
   const { transform, opacity } = useSpring({
     opacity: isFlipped ? 1 : 0,
@@ -28,7 +28,7 @@ function Card({
     if (turnPhase === "resolving") {
       return;
     }
-    flipCard(id);
+    flipCard(index);
   };
 
   return (

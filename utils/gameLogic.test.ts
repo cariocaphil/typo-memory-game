@@ -24,6 +24,7 @@ describe("createShuffledBoard", () => {
 
     expect(Object.values(counts)).toEqual([2, 2, 2]);
     expect(board.every((card) => card.flipped === false)).toBe(true);
+    expect(new Set(board.map((card) => card.id)).size).toBe(board.length);
   });
 });
 

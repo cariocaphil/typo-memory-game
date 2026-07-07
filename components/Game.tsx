@@ -37,17 +37,16 @@ function GameBoard({
     <>
       <div className="cards-section">
         {game.map((card, index) => (
-          <div key={index}>
-            <Card
-              id={index}
-              letterToBeDisplayed={
-                alwaysDifferentLetter ? letters[index] : letterToBeDisplayed
-              }
-              font={card.font}
-              showFontInfo={showFontInfo}
-              backgroundColor={backgroundColor}
-            />
-          </div>
+          <Card
+            key={card.id}
+            index={index}
+            letterToBeDisplayed={
+              alwaysDifferentLetter ? letters[index] : letterToBeDisplayed
+            }
+            font={card.font}
+            showFontInfo={showFontInfo}
+            backgroundColor={backgroundColor}
+          />
         ))}
       </div>
       {isModalVisible && (

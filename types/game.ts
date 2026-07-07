@@ -75,7 +75,7 @@ export type GameProps = {
 };
 
 export type CardProps = {
-  id: number;
+  index: number;
   letterToBeDisplayed: string;
   font: string;
   showFontInfo: boolean;

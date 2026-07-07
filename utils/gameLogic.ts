@@ -7,14 +7,18 @@ export const createShuffledBoard = (
 ): Card[] => {
   const cards: Card[] = [];
   for (let i = 0; i < options / 2; i++) {
-    const card = {
-      id: i,
+    cards.push({
+      id: i * 2,
       fontId: "font" + i,
       flipped: false,
       font: fonts && fonts[i],
-    };
-    cards.push(card);
-    cards.push({ ...card });
+    });
+    cards.push({
+      id: i * 2 + 1,
+      fontId: "font" + i,
+      flipped: false,
+      font: fonts && fonts[i],
+    });
   }
   return shuffleArray(cards);
 };
