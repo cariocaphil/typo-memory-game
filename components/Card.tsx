@@ -2,6 +2,7 @@ import React from "react";
 import { useSpring, animated as a } from "react-spring";
 import { useMemoryGameContext } from "../context/MemoryGameContext";
 import type { CardProps } from "../types/game";
+import styles from "./Card.module.css";
 
 function Card({
   index,
@@ -32,10 +33,10 @@ function Card({
   };
 
   return (
-    <div className="card" onClick={handleCardClick}>
+    <div className={styles.card} onClick={handleCardClick}>
       {!isFlipped && (
         <a.div
-          className="card-body back"
+          className={`${styles.cardBody} ${styles.back}`}
           style={{
             opacity: opacity.interpolate((o: number) => 1 - o),
             transform,
@@ -45,7 +46,7 @@ function Card({
       {isFlipped && (
         <>
           <a.div
-            className="card-body"
+            className={styles.cardBody}
             style={{
               opacity,
               transform: transform.interpolate((t) => `${t} rotateX(180deg)`),
@@ -54,7 +55,7 @@ function Card({
             }}
           >
             {letterToBeDisplayed}
-            {showFontInfo && <div className="font-info">{font}</div>}
+            {showFontInfo && <div className={styles.fontInfo}>{font}</div>}
           </a.div>
         </>
       )}

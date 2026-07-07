@@ -7,6 +7,7 @@ import {
   useMemoryGameContext,
 } from "../context/MemoryGameContext";
 import type { GameProps } from "../types/game";
+import styles from "./Game.module.css";
 
 const Modal = dynamic(() => import("antd/lib/modal"), {
   ssr: false,
@@ -35,7 +36,7 @@ function GameBoard({
 
   return (
     <>
-      <div className="cards-section">
+      <div className={styles.cardsSection}>
         {game.map((card, index) => (
           <Card
             key={card.id}

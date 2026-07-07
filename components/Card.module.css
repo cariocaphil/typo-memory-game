@@ -1,0 +1,31 @@
+.card {
+  height: 218px;
+  margin-bottom: 20px;
+  font-size: 100px;
+  flex-shrink: 0;
+}
+
+.cardBody {
+  cursor: pointer;
+  height: 218px;
+  padding-left: 15px;
+  width: 160px;
+  will-change: transform, opacity;
+}
+
+@media only screen and (max-width: 339px) {
+  .cardBody {
+    max-height: 200px;
+    max-width: 147px;
+  }
+}
+
+.back {
+  background-image: url("/card.svg");
+  background-size: cover;
+}
+
+.fontInfo {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+}

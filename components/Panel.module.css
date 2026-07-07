@@ -1,0 +1,12 @@
+.switches {
+  margin-top: 10px;
+}
+
+.switches label:not(:first-child) {
+  margin-top: 10px;
+}
+
+.switches label {
+  display: block;
+  margin-bottom: 2.5px;
+}
