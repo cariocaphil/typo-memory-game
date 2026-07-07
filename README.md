@@ -1,5 +1,7 @@
 # TypoMemory
 
+Can you remember a font just by looking at one character?
+
 A font-themed memory card game built with Next.js. Flip cards to find matching font pairs, with animated card turns and controls to tweak letters, case, and display options.
 
 ## Tech stack
