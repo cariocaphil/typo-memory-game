@@ -6,7 +6,12 @@ import {
   resolveFlippedPair,
 } from "./gameLogic";
 
-const makeCard = (id: number, fontId: string, flipped = false, font = "Font") => ({
+const makeCard = (
+  id: number,
+  fontId: string,
+  flipped = false,
+  font = "Font"
+) => ({
   id,
   fontId,
   flipped,

@@ -23,7 +23,10 @@ const memoryGameReducer = (
         game: action.game,
       };
     case "flipCard": {
-      if (state.turnPhase === "resolving" || state.game[action.cardIndex]?.flipped) {
+      if (
+        state.turnPhase === "resolving" ||
+        state.game[action.cardIndex]?.flipped
+      ) {
         return state;
       }
 
@@ -41,7 +44,10 @@ const memoryGameReducer = (
       ) {
         return {
           ...state,
-          indexesOfFlippedCards: [state.indexesOfFlippedCards[0], action.cardIndex],
+          indexesOfFlippedCards: [
+            state.indexesOfFlippedCards[0],
+            action.cardIndex,
+          ],
           turnPhase: "resolving",
         };
       }
@@ -53,7 +59,9 @@ const memoryGameReducer = (
         ...state,
         game: action.updatedGame,
         turnPhase: action.isMatch ? "idle" : "resolving",
-        indexesOfFlippedCards: action.isMatch ? [] : state.indexesOfFlippedCards,
+        indexesOfFlippedCards: action.isMatch
+          ? []
+          : state.indexesOfFlippedCards,
       };
     case "clearSelection":
       return {
@@ -81,7 +89,10 @@ export const useMemoryGame = (
       return;
     }
 
-    const resolvedPair = resolveFlippedPair(state.game, state.indexesOfFlippedCards);
+    const resolvedPair = resolveFlippedPair(
+      state.game,
+      state.indexesOfFlippedCards
+    );
     if (!resolvedPair) {
       return;
     }
