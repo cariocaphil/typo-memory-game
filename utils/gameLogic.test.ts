@@ -55,7 +55,7 @@ describe("resolveFlippedPair", () => {
 
     expect(result).not.toBeNull();
     expect(result?.updatedGame).toBe(board);
-    expect(result?.updatedIndexes).toEqual([0, 1, true]);
+    expect(result?.isMatch).toBe(false);
   });
 
   it("marks both cards as flipped when they match", () => {
@@ -66,6 +66,6 @@ describe("resolveFlippedPair", () => {
     expect(result?.updatedGame).not.toBe(board);
     expect(result?.updatedGame[0].flipped).toBe(true);
     expect(result?.updatedGame[1].flipped).toBe(true);
-    expect(result?.updatedIndexes).toEqual([0, 1, false]);
+    expect(result?.isMatch).toBe(true);
   });
 });

@@ -22,8 +22,10 @@ function Game({
   handleStartOver,
 }) {
   const [game, setGame] = useState([]);
-  const [flipCount, setFlipCount] = useState(0);
-  const [indexesOfFlippedCards, setIndexesOfFlippedCards] = useState([]);
+  const [indexesOfFlippedCards, setIndexesOfFlippedCards] = useState<number[]>(
+    []
+  );
+  const [turnPhase, setTurnPhase] = useState("idle");
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
@@ -39,6 +41,10 @@ function Game({
   }, [game]);
 
   useEffect(() => {
+    if (turnPhase !== "resolving") {
+      return;
+    }
+
     const resolvedPair = resolveFlippedPair(game, indexesOfFlippedCards);
     if (!resolvedPair) {
       return;
@@ -47,8 +53,40 @@ function Game({
     if (resolvedPair.updatedGame !== game) {
       setGame(resolvedPair.updatedGame);
     }
-    setIndexesOfFlippedCards(resolvedPair.updatedIndexes);
-  }, [indexesOfFlippedCards, game]);
+
+    if (resolvedPair.isMatch) {
+      setIndexesOfFlippedCards([]);
+      setTurnPhase("idle");
+      return;
+    }
+
+    const timeoutId = setTimeout(() => {
+      setIndexesOfFlippedCards([]);
+      setTurnPhase("idle");
+    }, 1000);
+
+    return () => clearTimeout(timeoutId);
+  }, [indexesOfFlippedCards, game, turnPhase]);
+
+  const handleFlipCard = (cardIndex) => {
+    if (turnPhase === "resolving" || game[cardIndex]?.flipped) {
+      return;
+    }
+
+    if (turnPhase === "idle") {
+      setIndexesOfFlippedCards([cardIndex]);
+      setTurnPhase("oneFlipped");
+      return;
+    }
+
+    if (
+      turnPhase === "oneFlipped" &&
+      indexesOfFlippedCards[0] !== cardIndex
+    ) {
+      setIndexesOfFlippedCards([indexesOfFlippedCards[0], cardIndex]);
+      setTurnPhase("resolving");
+    }
+  };
 
   return (
     <div className="cards-section">
@@ -57,10 +95,9 @@ function Game({
           <Card
             id={index}
             game={game}
-            flipCount={flipCount}
-            setFlipCount={setFlipCount}
             indexesOfFlippedCards={indexesOfFlippedCards}
-            setIndexesOfFlippedCards={setIndexesOfFlippedCards}
+            handleFlipCard={handleFlipCard}
+            turnPhase={turnPhase}
             letterToBeDisplayed={
               alwaysDifferentLetter ? letters[index] : letterToBeDisplayed
             }

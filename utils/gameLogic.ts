@@ -7,8 +7,6 @@ type GameCard = {
   font: string;
 };
 
-type FlippedIndexes = Array<number | boolean>;
-
 export const createShuffledBoard = (
   options: number,
   fonts: string[]
@@ -33,8 +31,8 @@ export const isGameFinished = (game: GameCard[]): boolean => {
 
 export const resolveFlippedPair = (
   game: GameCard[],
-  indexesOfFlippedCards: FlippedIndexes
-): { updatedGame: GameCard[]; updatedIndexes: FlippedIndexes } | null => {
+  indexesOfFlippedCards: number[]
+): { updatedGame: GameCard[]; isMatch: boolean } | null => {
   if (indexesOfFlippedCards.length !== 2 || game.length === 0) {
     return null;
   }
@@ -48,7 +46,7 @@ export const resolveFlippedPair = (
   if (!match) {
     return {
       updatedGame: game,
-      updatedIndexes: [firstIndex, secondIndex, true],
+      isMatch: false,
     };
   }
 
@@ -58,6 +56,6 @@ export const resolveFlippedPair = (
 
   return {
     updatedGame,
-    updatedIndexes: [firstIndex, secondIndex, false],
+    isMatch: true,
   };
 };
