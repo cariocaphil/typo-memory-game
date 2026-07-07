@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Game from "../components/Game";
+import Layout from "../components/Layout";
 import Panel from "../components/Panel";
 import TitleBar from "../components/TitleBar";
 import type { GetStaticProps } from "next";
@@ -70,33 +71,31 @@ export default function App({ fonts }: HomePageProps) {
   };
 
   return (
-    <>
-      <div>
-        <div className="panel-container">
-          <Panel
-            alwaysDifferentLetter={alwaysDifferentLetter}
-            showFontInfo={showFontInfo}
-            handleStartOver={handleStartOver}
-            handleChangeLetter={handleChangeLetter}
-            handleChangeLetterCase={handleChangeLetterCase}
-            handleFontNameDisplay={handleFontNameDisplay}
-            handleLetterVariation={handleLetterVariation}
-          />
-          <TitleBar />
-        </div>
-        <Game
-          key={gameKey}
-          options={OPTIONS_NUMBER}
-          letterToBeDisplayed={letterToBeDisplayed}
-          letters={letters}
-          fonts={fonts}
-          showFontInfo={showFontInfo}
+    <Layout>
+      <div className="panel-container">
+        <Panel
           alwaysDifferentLetter={alwaysDifferentLetter}
-          backgroundColor={backgroundColor}
+          showFontInfo={showFontInfo}
           handleStartOver={handleStartOver}
+          handleChangeLetter={handleChangeLetter}
+          handleChangeLetterCase={handleChangeLetterCase}
+          handleFontNameDisplay={handleFontNameDisplay}
+          handleLetterVariation={handleLetterVariation}
         />
+        <TitleBar />
       </div>
-    </>
+      <Game
+        key={gameKey}
+        options={OPTIONS_NUMBER}
+        letterToBeDisplayed={letterToBeDisplayed}
+        letters={letters}
+        fonts={fonts}
+        showFontInfo={showFontInfo}
+        alwaysDifferentLetter={alwaysDifferentLetter}
+        backgroundColor={backgroundColor}
+        handleStartOver={handleStartOver}
+      />
+    </Layout>
   );
 }
 
