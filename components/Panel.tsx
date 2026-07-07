@@ -1,6 +1,7 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import type { PanelProps } from "../types/game";
+import styles from "./Panel.module.css";
 
 const Button = dynamic(() => import("antd/lib/button"), {
   ssr: false,
@@ -24,7 +25,7 @@ function Panel({
       <Button onClick={handleStartOver}>Start Again</Button>
       <Button onClick={handleChangeLetter}>Change Letter</Button>
       <Button onClick={handleChangeLetterCase}>Upper/Lower Case</Button>
-      <div className="switches">
+      <div className={styles.switches}>
         <label htmlFor="switchLetter">Show same letter for each card</label>
         <Switch
           id="switchLetter"

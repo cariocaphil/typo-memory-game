@@ -14,6 +14,7 @@ import {
 } from "../utils/constants";
 import { shuffleArray } from "../utils/utils";
 import type { HomePageProps } from "../types/pages";
+import styles from "./index.module.css";
 
 export default function App({ fonts }: HomePageProps) {
   const [gameKey, setGameKey] = useState<number>(0);
@@ -72,7 +73,7 @@ export default function App({ fonts }: HomePageProps) {
 
   return (
     <Layout>
-      <div className="panel-container">
+      <div className={styles.panelContainer}>
         <Panel
           alwaysDifferentLetter={alwaysDifferentLetter}
           showFontInfo={showFontInfo}
